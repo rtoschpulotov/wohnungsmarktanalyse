@@ -3,9 +3,10 @@
 --  Datei:  01_tabellen_anlegen.sql
 --  Autor:  Rustam T. (Data Engineering)
 --  Zweck:  Das Tabellenmodell (Sternschema) für die Analyse
---          anlegen. Eine Faktentabelle (Mieten) plus vier
---          Dimensionstabellen (Einkommen, Dichte, Bestand,
---          Baupreise).
+--          anlegen. Eine Faktentabelle (Mieten), fünf Dimensions-
+--          tabellen (Einkommen, Dichte, Bestand, Baupreise,
+--          Verbraucherpreise) und die Brücke map_ort_kreis.
+--  Danach: CSVs importieren, dann 01b_kreisschluessel_verknuepfen.sql
 --  Ausführen in: pgAdmin, Query Tool auf Datenbank wohnungsmarkt_db
 -- ============================================================
 
@@ -66,9 +67,10 @@ CREATE TABLE dim_baupreise (
 );
 
 -- ------------------------------------------------------------
---  DIMENSIONSTABELLE 5: Kreiszuordnung (Deutschland, Zeitreihe)
---  Quelle: dichte_kreise.csv 
---  
+--  BRÜCKENTABELLE: Ort -> Kreis
+--  Quelle: ort_kreis_mapping.csv (419 Orte), erzeugt mit
+--          python/06_ort_kreis_mapping.py
+--  Dient für: Verknüpfung der Mieten mit Einkommen und Dichte
 -- ------------------------------------------------------------
 
 DROP TABLE IF EXISTS map_ort_kreis;
@@ -105,6 +107,11 @@ CREATE TABLE fakt_mietangebote (
     region_ost_west   VARCHAR(10)
 );
 
+-- ------------------------------------------------------------
+--  DIMENSIONSTABELLE 5: Verbraucherpreise (Deutschland, Zeitreihe)
+--  Quelle: verbraucherpreise_clean.csv (5 Jahre, 2021 = 100)
+--  Dient für: Hypothese H7 (Vergleichsreihe zu den Baupreisen)
+-- ------------------------------------------------------------
 DROP TABLE IF EXISTS dim_verbraucherpreise;
 CREATE TABLE dim_verbraucherpreise (
     berichtsjahr           SMALLINT PRIMARY KEY,

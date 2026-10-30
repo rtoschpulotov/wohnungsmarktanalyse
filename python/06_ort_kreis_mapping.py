@@ -31,10 +31,12 @@ wb = openpyxl.load_workbook("rohdaten/dichte_kreise.xlsx", read_only=True, data_
 ws = wb["Kreisfreie Städte u. Landkreise"]
 
 kreise = {}   # kreis_schluessel -> kreis_name
+kreistyp = {} # kreis_schluessel -> "Kreisfreie Stadt", "Stadtkreis", "Landkreis" ...
 for r in ws.iter_rows(values_only=True):
     schluessel = str(r[0]).strip() if r[0] else ""
     if len(schluessel) == 5 and schluessel.isdigit():
         kreise[schluessel] = str(r[2]).strip()
+        kreistyp[schluessel] = str(r[1]).strip()
 
 
 # ------------------------------------------------------------
@@ -50,10 +52,11 @@ def normalisiere(name):
     n = n.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss")
     n = n.replace("_", " ").replace("-", " ")
     n = re.sub(r"\([^)]*\)", "", n)          # Klammerzusätze entfernen
-    for zusatz in [", stadt", ", landeshauptstadt", ", hansestadt",
+    # ", stadtkreis" muss VOR ", stadt" stehen, sonst bleibt "kreis" übrig
+    for zusatz in [", stadtkreis", ", stadt", ", landeshauptstadt", ", hansestadt",
                    ", kreisfreie stadt", ", wissenschaftsstadt",
                    ", documenta-stadt", ", documenta stadt",
-                   ", universitaetsstadt", ", stadtkreis",
+                   ", universitaetsstadt",
                    ", grosse kreisstadt", " landkreis", " kreisfreie stadt"]:
         n = n.replace(zusatz, "")
     n = re.sub(r"\bkreis\b", "", n)
@@ -68,9 +71,25 @@ def normalisiere(name):
     return n
 
 # Kreisnamen in Grundform -> Schlüssel (für den automatischen Abgleich)
-kreis_grundform = {}
+#
+# Korrektur 10/2026: Vorher stand hier ein einziges Wörterbuch. Weil
+# normalisiere() "Stadt", "Landeshauptstadt" usw. entfernt, wurden z.B.
+# "München, Landeshauptstadt" (09162) und der Landkreis "München" (09184)
+# beide zu "muenchen", und der Landkreis hat die Stadt überschrieben.
+# Betroffen waren München, Leipzig, Kassel, Kaiserslautern, Osnabrück,
+# Karlsruhe und Heilbronn, zusammen rund 20.900 Inserate.
+# Bei Karlsruhe und Heilbronn kam noch ein zweiter Fehler dazu, siehe
+# Reihenfolge der Zusätze in normalisiere().
+# Deshalb jetzt zwei getrennte Wörterbücher: kreisfreie Städte und Landkreise.
+def ist_stadt(schluessel):
+    # die Destatis-Tabelle hat eine eigene Spalte mit dem Kreistyp
+    return kreistyp.get(schluessel) in ("Kreisfreie Stadt", "Stadtkreis")
+
+stadt_grundform = {}
+landkreis_grundform = {}
 for schluessel, name in kreise.items():
-    kreis_grundform[normalisiere(name)] = schluessel
+    ziel = stadt_grundform if ist_stadt(schluessel) else landkreis_grundform
+    ziel[normalisiere(name)] = schluessel
 
 
 # ------------------------------------------------------------
@@ -147,10 +166,18 @@ ergebnis = []
 nicht_zugeordnet = []
 for ort in sorted(orte):
     # Erst die manuelle Liste, dann der automatische Abgleich.
+    grundform = normalisiere(ort)
+    # "_Kreis" im Ortsnamen = Landkreis, sonst zuerst bei den Städten suchen
+    if ort.endswith("_Kreis"):
+        reihenfolge = (landkreis_grundform, stadt_grundform)
+    else:
+        reihenfolge = (stadt_grundform, landkreis_grundform)
+    automatisch = next((d[grundform] for d in reihenfolge if grundform in d), None)
+
     if ort in manuell:
         ks = manuell[ort]
-    elif normalisiere(ort) in kreis_grundform:
-        ks = kreis_grundform[normalisiere(ort)]
+    elif automatisch:
+        ks = automatisch
     else:
         nicht_zugeordnet.append(ort)
         continue

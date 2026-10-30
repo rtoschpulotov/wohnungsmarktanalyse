@@ -40,15 +40,19 @@ SELECT
         (AVG(m.miete_pro_qm) / (SELECT schnitt_de FROM bundesschnitt) - 1) * 100,
         1
     ) AS prozent_ueber_schnitt,
-    COUNT(*) AS anzahl_inserate                         -- wie viele Wohnungen im Schnitt
+    COUNT(*) AS anzahl_inserate                         -- aus wie vielen Wohnungen der Schnitt besteht
 FROM fakt_mietangebote AS m
 
 -- Den Klarnamen des Kreises holen wir aus der Zuordnungstabelle.
+-- Verbunden wird über den Ort: In map_ort_kreis gibt es pro Ort genau
+-- eine Zeile, pro Kreis aber manchmal mehrere. Ein Join über den
+-- Kreisschlüssel hätte Wohnungen doppelt gezählt (Korrektur 10/2026).
 JOIN map_ort_kreis AS k
-    ON m.kreis_schluessel = k.kreis_schluessel
+    ON m.ort = k.ort
 
--- Pro Kreis zusammenfassen.
-GROUP BY k.kreis_name
+-- Pro Kreis zusammenfassen. Der Schlüssel muss mit rein, weil z.B.
+-- "Augsburg" als Stadt und als Landkreis gleich heißt.
+GROUP BY k.kreis_schluessel, k.kreis_name
 
 -- Nur Kreise mit genug Inseraten, damit der Schnitt belastbar ist
 -- (mindestens 50 Wohnungen). HAVING filtert NACH dem Gruppieren.

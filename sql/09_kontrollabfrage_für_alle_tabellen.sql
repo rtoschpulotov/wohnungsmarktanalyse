@@ -2,13 +2,13 @@
 --  Abschlussprojekt: Wohnungsmarkt & Mietpreise in Deutschland
 --  Datei:  09_kontrollabfrage_für_alle_tabellen.sql
 --  Autor:  Rustam T. (Data Engineering)
---  Zweck: Wir wollen alle sechs Tabellen auf einen Blick sehen
+--  Zweck: Wir wollen alle sieben Tabellen auf einen Blick sehen
 -- ============================================================
 
 --  Die Idee:
---  Wir wollen für alle sechs Tabellen auf einen Blick sehen, 
+--  Wir wollen für alle sieben Tabellen auf einen Blick sehen, 
 --  wie viele Zeilen drin sind.
---  Normalerweise müsste man sechs einzelne COUNT-Abfragen machen. 
+--  Normalerweise müsste man sieben einzelne COUNT-Abfragen machen. 
 --  Wir bauen sie stattdessen mit UNION ALL zu einer einzigen 
 --  zusammen,sodass eine schöne Übersichtstabelle herauskommt.
 -- ============================================================

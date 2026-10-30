@@ -149,6 +149,8 @@ def h1_topstaedte():
     # read_sql schickt die Abfrage an die Datenbank und legt das
     # Ergebnis als Tabelle (DataFrame) im Arbeitsspeicher ab.
     df = pd.read_sql(abfrage, verbindung)
+    # "Frankfurt_am_Main" -> "Frankfurt am Main", liest sich im Diagramm besser
+    df["ort"] = df["ort"].str.replace("_", " ")
 
     # Eine neue, leere Zeichenfläche in einer bestimmten Größe
     # (Breite, Höhe in Zoll) anlegen.
@@ -161,8 +163,8 @@ def h1_topstaedte():
 
     # Titel und Achsenbeschriftungen. Die y-Achse braucht keinen
     # Titel, weil dort schon die Ortsnamen stehen.
-    plt.title("H1: Die teuersten Orte ueber dem Bundesschnitt", fontweight="bold")
-    plt.xlabel("Prozent ueber dem bundesweiten Schnitt")
+    plt.title("H1: Die teuersten Orte über dem Bundesschnitt", fontweight="bold")
+    plt.xlabel("Prozent über dem bundesweiten Schnitt")
     plt.ylabel("")
 
     speichern("h1_topstaedte.png")
@@ -203,8 +205,8 @@ def h2_wohnungsgroesse():
     plt.figure(figsize=(9, 5.5))
     # Hier sind die Balken senkrecht, weil x der Text ist und y die Zahl.
     sns.barplot(data=df, x="groesse_klasse", y="miete_pro_qm", color=TERRA)
-    plt.title("H2: Quadratmeterpreis nach Wohnungsgroesse", fontweight="bold")
-    plt.xlabel("Wohnflaeche in Quadratmetern")
+    plt.title("H2: Quadratmeterpreis nach Wohnungsgröße", fontweight="bold")
+    plt.xlabel("Wohnfläche in Quadratmetern")
     plt.ylabel("Durchschnittlicher Preis je m² (Euro)")
     speichern("h2_wohnungsgroesse.png")
 
@@ -263,7 +265,7 @@ def h4_bezahlbarkeit():
                 scatter_kws={"alpha": 0.5, "color": SCHIEFER},
                 line_kws={"color": TERRA})
     plt.title("H4: Einkommen gegen Miete je Kreis", fontweight="bold")
-    plt.xlabel("Verfuegbares Einkommen je Einwohner (Euro)")
+    plt.xlabel("Verfügbares Einkommen je Einwohner (Euro)")
     plt.ylabel("Durchschnittlicher Preis je m² (Euro)")
     speichern("h4_bezahlbarkeit.png")
 
@@ -319,7 +321,7 @@ def h6_dichte():
     sns.regplot(data=df, x="dichte", y="miete_pro_qm",
                 scatter_kws={"alpha": 0.5, "color": SCHIEFER},
                 line_kws={"color": TERRA})
-    plt.title("H6: Bevoelkerungsdichte gegen Miete je Kreis", fontweight="bold")
+    plt.title("H6: Bevölkerungsdichte gegen Miete je Kreis", fontweight="bold")
     plt.xlabel("Einwohner je Quadratkilometer")
     plt.ylabel("Durchschnittlicher Preis je m² (Euro)")
     speichern("h6_dichte.png")
@@ -398,6 +400,6 @@ if __name__ == "__main__":
             funktion()
         except Exception as fehler:
             print(f"  Problem bei {name}: {fehler}")
-            print(f"  Tipp: pruefe die Spaltennamen der beteiligten Tabelle.")
+            print(f"  Tipp: prüfe die Spaltennamen der beteiligten Tabelle.")
 
     print("\nFertig. Alle Bilder liegen im Ordner 'visualisierungen'.")

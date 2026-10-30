@@ -49,12 +49,13 @@ SELECT
     ROUND(AVG(m.miete_pro_qm), 2) AS schnitt_miete_qm,
     COUNT(*) AS anzahl_inserate
 FROM fakt_mietangebote AS m
+-- Join über den Ort, nicht über den Kreisschlüssel (sonst Doppelzählung)
 JOIN map_ort_kreis AS k
-    ON m.kreis_schluessel = k.kreis_schluessel
+    ON m.ort = k.ort
 -- Wir filtern gezielt auf die drei Boom-Städte. ILIKE sucht
 -- unabhängig von Groß- und Kleinschreibung nach dem Namen.
 WHERE k.kreis_name ILIKE '%Leipzig%'
    OR k.kreis_name ILIKE '%Dresden%'
    OR k.kreis_name ILIKE '%Berlin%'
-GROUP BY k.kreis_name
+GROUP BY k.kreis_schluessel, k.kreis_name
 ORDER BY schnitt_miete_qm DESC;
