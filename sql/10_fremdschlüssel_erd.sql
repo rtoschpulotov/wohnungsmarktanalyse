@@ -71,8 +71,9 @@ ALTER TABLE fakt_mietangebote
 --  TEIL 2: Der Fremdschlüssel zur Brücke (über den Ort)
 -- ============================================================
 -- Die Brücke map_ort_kreis verbinden wir über die Spalte "ort".
--- Hier brauchen wir etwas Vorarbeit, weil "ort" dort nicht der
--- Primärschlüssel war und deshalb noch nicht als eindeutig galt.
+-- Ein Fremdschlüssel braucht als Ziel eine eindeutige Spalte.
+-- "ort" ist laut 01_tabellen_anlegen.sql schon Primärschlüssel,
+-- damit ist diese Bedingung eigentlich bereits erfüllt.
 
 
 -- --- Schritt 2a: Prüfen, ob "ort" überhaupt eindeutig ist ---
@@ -89,13 +90,15 @@ HAVING COUNT(*) > 1;
 -- --- Schritt 2b: "ort" zur eindeutigen Spalte machen ---
 -- Wir hängen eine Unique-Regel an "ort". Damit verspricht die
 -- Tabelle, dass jeder Ortsname nur ein einziges Mal vorkommt.
--- Erst dadurch darf ein Fremdschlüssel auf "ort" zeigen.
 --
--- Hinweis aus der Praxis: Wir wollten "ort" zuerst zum zweiten
--- Primärschlüssel machen, das ging aber nicht, weil eine Tabelle
--- nur EINEN Primärschlüssel haben darf (map_ort_kreis hatte
--- schon einen auf kreis_schluessel). Die Unique-Regel ist die
--- richtige Lösung und reicht völlig aus.
+-- Korrektur 10/2026: Damals dachten wir, der Primärschlüssel liege
+-- auf kreis_schluessel. Als wir "ort" zum Primärschlüssel machen
+-- wollten, kam die Meldung, dass es schon einen gibt. Beim
+-- Nachprüfen im ER-Diagramm zeigt sich: Er lag die ganze Zeit auf
+-- "ort". Auf kreis_schluessel wäre er auch gar nicht möglich, weil
+-- mehrere Orte zum selben Kreis gehören (z.B. Aachen und
+-- Aachen_Kreis). Die Unique-Regel ist also doppelt. Sie schadet
+-- nicht, ich lasse sie drin, weil sie so in der Datenbank steht.
 ALTER TABLE map_ort_kreis
     ADD CONSTRAINT uq_map_ort_kreis UNIQUE (ort);
 
@@ -112,8 +115,8 @@ ALTER TABLE fakt_mietangebote
 --  OPTIONAL: Nur zur Information, nicht nötig
 -- ============================================================
 -- Diese Abfrage zeigt, welche Spalte der bestehende Primär-
--- schlüssel von map_ort_kreis ist. Das half uns zu verstehen,
--- warum ein zweiter Primärschlüssel abgelehnt wurde. Sie
+-- schlüssel von map_ort_kreis ist. Damit lässt sich prüfen, auf
+-- welcher Spalte er liegt (Ergebnis: ort). Sie
 -- verändert nichts, sie schaut nur in die Systemtabellen von
 -- PostgreSQL. Du kannst sie laufen lassen oder weglassen.
 SELECT a.attname AS spalte
