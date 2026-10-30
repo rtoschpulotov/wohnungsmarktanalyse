@@ -51,7 +51,7 @@ Bundesland, weil das für H6 rund 400 statt 16 Datenpunkte ergibt.
 
 | | Hypothese | Ergebnis |
 |---|---|---|
-| H1 | Die teuersten Städte liegen deutlich über dem Bundesschnitt | bestätigt: München rund 165 % darüber, das Umland zieht mit |
+| H1 | Die teuersten Städte liegen deutlich über dem Bundesschnitt | bestätigt: München rund 166 % darüber, das Umland zieht mit |
 | H2 | Kleine Wohnungen sind pro m² teurer | teilweise: U-Form, unter 40 m² über 12 €, 40 bis 80 m² knapp unter 8 €, große Wohnungen rund 10 € |
 | H3 | Das Ost-West-Gefälle besteht fort | bestätigt: Osten 6,32 €, Westen 9,89 €, Berlin mit 14,29 € separat ausgewertet. Leipzig (7,93 €) und Dresden (8,94 €) liegen über dem Ost-, aber unter dem West-Schnitt |
 | H4 | Wohnen ist in vielen Städten kaum bezahlbar | Zusammenhang sichtbar: Kreise mit höherem Einkommen haben höhere Mieten, r = 0,62 über 400 Kreise (siehe Grenzen) |
@@ -155,4 +155,4 @@ in Containern. Dafür wird ein eigenes Datenbank-Backup gebraucht, siehe Anleitu
 
 ## Werkzeuge
 
-Python (pandas, openpyxl, PySpark, seaborn, SQLAlchemy), PostgreSQL 17, pgAdmin, Docker
+SQL, PostgreSQL 17, pgAdmin, Python (pandas, openpyxl, PySpark, seaborn, SQLAlchemy), Docker

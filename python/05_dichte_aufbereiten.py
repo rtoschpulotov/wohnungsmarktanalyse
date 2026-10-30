@@ -30,7 +30,7 @@ rows = list(ws.iter_rows(values_only=True))
 
 
 # --- Die Kreise herausfiltern ---
-# In der Datei stehen auch Zwischenzeilen (Bundesland-Ueberschriften,
+# In der Datei stehen auch Zwischenzeilen (Bundesland-Überschriften,
 # "Insgesamt"-Summen, statistische Regionen). Die haben keinen oder
 # einen zu kurzen Schlüssel. Wir behalten nur echte Kreise, die wir
 # am 5-stelligen Kreisschlüssel erkennen.

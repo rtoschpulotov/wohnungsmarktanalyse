@@ -10,7 +10,7 @@
 --  wie viele Zeilen drin sind.
 --  Normalerweise müsste man sieben einzelne COUNT-Abfragen machen. 
 --  Wir bauen sie stattdessen mit UNION ALL zu einer einzigen 
---  zusammen,sodass eine schöne Übersichtstabelle herauskommt.
+--  zusammen, sodass eine schöne Übersichtstabelle herauskommt.
 -- ============================================================
 
 

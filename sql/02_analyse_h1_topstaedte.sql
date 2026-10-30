@@ -5,21 +5,20 @@
 --  Thema:  Analyse-Abfrage
 -- ============================================================
 --
---  HYPOTHESE H1:Die teuersten Städte Deutschland
+--  HYPOTHESE H1: Die teuersten Städte Deutschlands
 --  Die teuersten Großstädte (Top-10) liegen 
 --  über dem bundesweiten Durchschnitt der Quadratmetermiete.
 --
---  ZWeck DIESER ABFRAGE:
+--  ZWECK DIESER ABFRAGE:
 --  Um zu prüfen, ob eine Stadt "deutlich teurer" ist, brauchen
 --  wir einen Vergleichsmaßstab: den bundesweiten Durchschnitt
 --  der Miete pro Quadratmeter. Diesen rechne ich einmal aus
---  und stellen daneben für jeden Kreis, wie weit er prozentual
+--  und stelle daneben für jeden Kreis, wie weit er prozentual
 --  darüber oder darunter liegt. So sieht man auf einen Blick,
 --  welche Städte wie stark über dem Schnitt liegen.
 --
---  Diese Abfrage arbeitet nur mit den Mietdaten, sie braucht
---  keine Verknüpfung. Den Ortsnamen nehmen wir aus der
---  Zuordnungstabelle, damit ein sauberer Kreisname erscheint.
+--  Die Abfrage braucht nur die Mietdaten und die Zuordnungs-
+--  tabelle, aus der ein sauberer Kreisname kommt.
 -- ============================================================
 
 -- Ein "WITH"-Block berechnet vorab eine Hilfszahl:

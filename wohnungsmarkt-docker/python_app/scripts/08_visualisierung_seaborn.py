@@ -16,7 +16,7 @@
 #     pip install sqlalchemy psycopg2-binary seaborn
 #
 #  Ausgabe:  visualisierungen/*.png
-#  Aufruf:   python python/08_visualisierung_seaborn.py
+#  Aufruf:   docker compose run --rm python python scripts/08_visualisierung_seaborn.py
 # ============================================================
 
 # --- Die Werkzeuge, die wir brauchen (die "imports") ---

@@ -111,8 +111,8 @@ ALTER TABLE fakt_mietangebote
 -- ============================================================
 --  OPTIONAL: Nur zur Information, nicht nötig
 -- ============================================================
--- Diese Abfrage zeigt, welche Spalte der bestehende Primaer-
--- schluessel von map_ort_kreis ist. Das half uns zu verstehen,
+-- Diese Abfrage zeigt, welche Spalte der bestehende Primär-
+-- schlüssel von map_ort_kreis ist. Das half uns zu verstehen,
 -- warum ein zweiter Primärschlüssel abgelehnt wurde. Sie
 -- verändert nichts, sie schaut nur in die Systemtabellen von
 -- PostgreSQL. Du kannst sie laufen lassen oder weglassen.
@@ -139,7 +139,7 @@ WHERE i.indrelid = 'map_ort_kreis'::regclass AND i.indisprimary;
 -- sie unverbunden sind, ist also richtig und ehrlich.
 --
 -- Schöner Nebeneffekt für die Verteidigung: Durch die Fremd-
--- schluessel erzwingt die Datenbank nun die referentielle
+-- schlüssel erzwingt die Datenbank nun die referentielle
 -- Integrität. Das heißt, es kann gar keine Wohnung mehr geben,
 -- die auf einen nicht existierenden Kreis oder Ort verweist. Das
 -- ist ein echtes Qualitätsmerkmal der Datenbank.

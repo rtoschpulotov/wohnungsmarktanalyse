@@ -6,9 +6,8 @@
 -- ============================================================
 --
 --  HYPOTHESE H2:
---  Für kleine Wohnungen, zahlt man mehr pro qm² 
---  im Vergleich zu größeren Wohnungen
---  Die Fläche ist also nicht der stärkste Preistreiber: 
+--  Für kleine Wohnungen zahlt man mehr pro qm²
+--  als für größere Wohnungen.
 
 --
 --  WORUM GEHT ES IN DIESER ABFRAGE:
@@ -18,8 +17,8 @@
 --  stimmt, sinkt der Quadratmeterpreis mit steigender Größe:
 --  kleine Klassen oben teuer, große Klassen unten günstiger.
 
---  Die Abfrage ist mietdatenbasiert und daher eine Verknüpfung 
---  mit andere Tabelle ist nicht erforderlich.
+--  Die Abfrage braucht nur die Mietdaten, eine Verknüpfung
+--  mit anderen Tabellen ist nicht nötig.
 -- ============================================================
 
 SELECT
@@ -40,7 +39,7 @@ SELECT
 FROM fakt_mietangebote
 
 --    Die Gruppierung nach Größenklasse dient dazu, einen Durchschnitt 
---    pro Klasse zu ermitteln.Wir wiederholen die CASE-Einteilung,
+--    pro Klasse zu ermitteln. Wir wiederholen die CASE-Einteilung,
 --    da GROUP BY den fertigen Spaltennamen noch nicht kennt.
 GROUP BY
     CASE

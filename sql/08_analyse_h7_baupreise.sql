@@ -13,7 +13,7 @@
 --  ZEITBASIS DES VERGLEICHS:
 --  Beide Reihen laufen über die Jahre 2021 bis 2025 und sind
 --  auf das gemeinsame Basisjahr 2021 = 100 gebracht. Nur so
---  ist der Vergleich fair, weil beide vom selben Startpunk 
+--  ist der Vergleich fair, weil beide vom selben Startpunkt
 --  aus messen.
 -- ============================================================
 

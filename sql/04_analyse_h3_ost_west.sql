@@ -14,9 +14,9 @@
 --  ZWECK DIESER ABFRAGE:
 --  Der Vergleich der durchschnittlichen Miete pro qm² erfolgt 
 --  zwischen den Regionen Ost, West und Berlin. Dafür nutze ich 
---  die Spalte region_ost_west.Diese Spalte habe ich bei der 
---  Datenaufbereitung mit PySpark gebildet.Berlin führte ich dort bewusst 
---  als eigene Kategorie, weil es als Boom-Stadt weder klar Ost noch West ist.
+--  die Spalte region_ost_west. Diese Spalte habe ich bei der
+--  Datenaufbereitung mit PySpark gebildet. Berlin habe ich dort bewusst
+--  als eigene Kategorie geführt, weil es als Boom-Stadt weder klar Ost noch West ist.
 
 --  Diese Abfrage arbeitet nur mit den Mietdaten, sie braucht
 --  keine Verknüpfung.
