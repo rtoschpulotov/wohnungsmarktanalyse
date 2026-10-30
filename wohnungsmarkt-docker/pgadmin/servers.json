@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Wohnungsmarkt (Docker)",
+      "Group": "Server Group 1",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "wohnungsmarkt_db",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "Comment": "Verbindung zur Datenbank im Docker-Netz. Host ist der Servicename db."
+    }
+  }
+}

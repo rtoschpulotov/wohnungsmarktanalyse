@@ -1,0 +1,11 @@
+Lege hier deine Backup-Datei ab und nenne sie genau:
+
+    wohnungsmarkt_db.backup
+
+Das ist das custom-format Backup, das du in pgAdmin über
+Rechtsklick auf die Datenbank > Backup mit Format "Custom"
+erstellst. Beim ersten Start des Containers spielt das Skript
+restore.sh dieses Backup automatisch ein.
+
+Wichtig: Achte darauf, dass das Backup von PostgreSQL 17 stammt,
+damit es zur Version im Container passt.

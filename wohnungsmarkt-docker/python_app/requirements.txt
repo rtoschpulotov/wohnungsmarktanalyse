@@ -1,0 +1,6 @@
+# Pakete für die Auswertung und die seaborn-Diagramme
+pandas
+seaborn
+matplotlib
+SQLAlchemy
+psycopg2-binary

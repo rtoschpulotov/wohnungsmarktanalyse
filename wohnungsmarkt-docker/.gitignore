@@ -1,0 +1,8 @@
+# Zugangsdaten niemals ins Repository
+.env
+
+# Das Backup ist gross und privat, gehoert nicht auf GitHub
+init/wohnungsmarkt_db.backup
+
+# Erzeugte Bilder muessen nicht eingecheckt werden
+visualisierungen/*.png

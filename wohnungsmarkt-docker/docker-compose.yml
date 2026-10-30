@@ -1,0 +1,78 @@
+# ============================================================
+#  Wohnungsmarkt-Projekt  ·  Docker-Setup (Person A)
+#
+#  Drei Bausteine ("services"):
+#    db      -> die PostgreSQL-Datenbank
+#    pgadmin -> die grafische Oberfläche im Browser
+#    python  -> die Umgebung für die seaborn-Skripte
+#
+#  Start:  docker compose up -d        (startet db und pgadmin)
+#  Stop:   docker compose down         (Daten bleiben erhalten)
+#
+#  Die Passwörter stehen NICHT hier, sondern in der Datei .env
+#  (siehe .env.example). Compose liest .env automatisch ein.
+# ============================================================
+
+services:
+
+  # --- Die Datenbank ---------------------------------------
+  db:
+    image: postgres:17                 # gleiche Version wie lokal, wichtig fürs Backup
+    container_name: wohnungsmarkt_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORT}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"                    # Datenbank auch von außen erreichbar
+    volumes:
+      # Hier liegen die echten Daten dauerhaft. Ohne dieses Volume
+      # wären die Daten nach jedem Neustart weg.
+      - db_data:/var/lib/postgresql/data
+      # Alles in diesem Ordner wird beim ERSTEN Start automatisch
+      # ausgeführt. Dort liegt das Restore-Skript und dein Backup.
+      - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      # Prüft, ob die Datenbank wirklich bereit ist. Der python-Service
+      # wartet darauf, bevor er startet.
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # --- Die grafische Oberfläche ---------------------------
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: wohnungsmarkt_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORT}
+    ports:
+      - "5050:80"                      # Browser: http://localhost:5050
+    volumes:
+      # Meldet die Datenbank-Verbindung schon vor (Host ist "db").
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+    depends_on:
+      - db
+
+  # --- Die Python-Umgebung für die seaborn-Skripte --------
+  python:
+    build: ./python_app                # baut das Image aus dem Dockerfile
+    container_name: wohnungsmarkt_python
+    profiles: ["tools"]                # startet NICHT bei "up", nur bei Bedarf
+    environment:
+      DB_HOST: db                      # im Container heißt die DB "db", nicht localhost
+      DB_USER: ${DB_USER}
+      DB_PASSWORT: ${DB_PASSWORT}
+      DB_NAME: ${DB_NAME}
+      MPLBACKEND: Agg                  # matplotlib ohne Bildschirm, nur in Dateien
+    volumes:
+      - ./python_app/scripts:/app/scripts          # die Skripte
+      - ./visualisierungen:/app/visualisierungen   # hier landen die Bilder
+    depends_on:
+      db:
+        condition: service_healthy     # erst wenn die DB bereit ist
+
+# Das benannte Volume für die Datenbankdaten.
+volumes:
+  db_data:

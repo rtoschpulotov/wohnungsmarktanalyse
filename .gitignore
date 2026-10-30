@@ -1,0 +1,16 @@
+# Zugangsdaten
+.env
+
+# Datenbank-Backups (enthalten die ImmoScout-Mietdaten)
+*.backup
+
+# Rohdaten und aufbereitete Daten liegen nur lokal
+rohdaten/*
+!rohdaten/.gitkeep
+clean/*
+!clean/.gitkeep
+
+# Python- und Office-Zwischendateien
+__pycache__/
+.ipynb_checkpoints/
+~$*

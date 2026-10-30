@@ -1,0 +1,3 @@
+# restore.sh läuft im Linux-Container und braucht Unix-Zeilenenden,
+# sonst bricht das Einspielen des Backups ab
+*.sh text eol=lf
