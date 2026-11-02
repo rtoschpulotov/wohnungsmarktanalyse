@@ -156,3 +156,8 @@ in Containern. Dafür wird ein eigenes Datenbank-Backup gebraucht, siehe Anleitu
 ## Werkzeuge
 
 SQL, PostgreSQL 17, pgAdmin, Python (pandas, openpyxl, PySpark, seaborn, SQLAlchemy), Docker
+
+## Kontakt
+
+E-Mail: ru.to@outlook.de
+LinkedIn: https://www.linkedin.com/in/rustam-toschpulotov-data/
